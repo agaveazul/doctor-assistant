@@ -40,10 +40,9 @@ export const meetings = [
     }),
     location: "Office",
   },
-  // More meetings...
 ];
 
-export const getMonthName = (dateString) => {
+export const getMonthName = (dateString: string) => {
   // Create an array of month names
   const monthNames = [
     "January",
@@ -70,7 +69,7 @@ export const getMonthName = (dateString) => {
   return monthNames[monthIndex];
 };
 
-export const generateCalendarDays = (selectedDay) => {
+export const generateCalendarDays = (selectedDay: string) => {
   const firstDay = new Date(selectedDay + "T00:00:00");
   firstDay.setDate(1); // Set to the first day of the month
   firstDay.setHours(0, 0, 0, 0); // Normalize time to midnight
@@ -87,7 +86,6 @@ export const generateCalendarDays = (selectedDay) => {
 
   const days = [];
   let day = new Date(startDay);
-  let count = 0;
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalize today's date
 

@@ -3,9 +3,14 @@ import AudioRecorderPlayer from "../components/AudioRecorderPlayer";
 import TranscriptionSummary from "../components/TranscriptionSummary";
 
 export default function RecordingPage() {
-  const [recordingUploaded, setRecordingUploaded] = useState(false);
-  const [transcription, setTranscription] = useState(null);
-  const [summary, setSummary] = useState("");
+  interface SummaryType {
+    raw_summary: string;
+    parsed_summary: any;
+  }
+
+  const [recordingUploaded, setRecordingUploaded] = useState<boolean>(false);
+  const [transcription, setTranscription] = useState<string | null>(null);
+  const [summary, setSummary] = useState<SummaryType | null>(null);
 
   return (
     <div>

@@ -1,15 +1,20 @@
-import { useEffect, useState, CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import { useVoiceVisualizer, VoiceVisualizer } from "react-voice-visualizer";
 import { Button } from "./button";
 import { ArrowUpCircleIcon } from "@heroicons/react/16/solid";
 import ClipLoader from "react-spinners/ClipLoader";
 const VITE_SERVER_API_BASE_URL = import.meta.env.VITE_SERVER_API_BASE_URL;
 
+interface AudioRecorderPlayerProps {
+  setRecordingUploaded: React.Dispatch<React.SetStateAction<boolean>>;
+  summary: any;
+  recordingUploaded: boolean;
+}
+
 const AudioRecorderPlayer = ({
-  recordingUploaded,
   setRecordingUploaded,
   summary,
-}) => {
+}: AudioRecorderPlayerProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const displayUploadIcon = () => {

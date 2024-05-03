@@ -15,19 +15,26 @@ import {
   currentDate,
 } from "../helpers/calendarHelpers";
 
-function classNames(...classes) {
+function classNames(...classes: (string | boolean)[]) {
   return classes.filter(Boolean).join(" ");
+}
+
+interface Day {
+  date: string;
+  isCurrentMonth: boolean;
+  isToday: boolean;
+  isSelected: boolean;
 }
 
 export default function CalendarPage() {
   const [selectedDay, setSelectedDay] = useState(currentDate);
-  const [calendarDays, setCalendarDays] = useState([]);
+  const [calendarDays, setCalendarDays] = useState<Day[]>([]);
 
-  const handleDayClick = (day) => {
+  const handleDayClick = (day: { date: string }) => {
     setSelectedDay(day.date);
   };
 
-  const handleMonthClick = (direction) => {
+  const handleMonthClick = (direction: number) => {
     const inputDate = new Date(selectedDay + "T00:00:00");
     inputDate.setMonth(inputDate.getMonth() + direction);
     inputDate.setDate(1);
@@ -78,43 +85,48 @@ export default function CalendarPage() {
             <div>S</div>
           </div>
           <div className="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
-            {calendarDays.map((day, dayIdx) => (
-              <button
-                key={day.date}
-                type="button"
-                onClick={() => handleDayClick(day)}
-                className={classNames(
-                  "py-1.5 hover:bg-gray-100 focus:z-10",
-                  day.isCurrentMonth ? "bg-white" : "bg-gray-50",
-                  (day.isSelected || day.isToday) && "font-semibold",
-                  day.isSelected && "text-white",
-                  !day.isSelected &&
-                    day.isCurrentMonth &&
-                    !day.isToday &&
-                    "text-gray-900",
-                  !day.isSelected &&
-                    !day.isCurrentMonth &&
-                    !day.isToday &&
-                    "text-gray-400",
-                  day.isToday && !day.isSelected && "text-indigo-600",
-                  dayIdx === 0 && "rounded-tl-lg",
-                  dayIdx === 6 && "rounded-tr-lg",
-                  dayIdx === calendarDays.length - 7 && "rounded-bl-lg",
-                  dayIdx === calendarDays.length - 1 && "rounded-br-lg"
-                )}
-              >
-                <time
-                  dateTime={day.date}
-                  className={classNames(
-                    "mx-auto flex h-7 w-7 items-center justify-center rounded-full",
-                    day.isSelected && day.isToday && "bg-indigo-600",
-                    day.isSelected && !day.isToday && "bg-gray-900"
-                  )}
-                >
-                  {day.date.split("-").pop().replace(/^0/, "")}
-                </time>
-              </button>
-            ))}
+            {calendarDays.map(
+              (day: Day, dayIdx) =>
+                day && (
+                  <button
+                    key={day.date}
+                    type="button"
+                    onClick={() => handleDayClick(day)}
+                    className={classNames(
+                      "py-1.5 hover:bg-gray-100 focus:z-10",
+                      day.isCurrentMonth ? "bg-white" : "bg-gray-50",
+                      (day.isSelected || day.isToday) && "font-semibold",
+                      day.isSelected && "text-white",
+                      !day.isSelected &&
+                        day.isCurrentMonth &&
+                        !day.isToday &&
+                        "text-gray-900",
+                      !day.isSelected &&
+                        !day.isCurrentMonth &&
+                        !day.isToday &&
+                        "text-gray-400",
+                      day.isToday && !day.isSelected && "text-indigo-600",
+                      dayIdx === 0 && "rounded-tl-lg",
+                      dayIdx === 6 && "rounded-tr-lg",
+                      dayIdx === calendarDays.length - 7 && "rounded-bl-lg",
+                      dayIdx === calendarDays.length - 1 && "rounded-br-lg"
+                    )}
+                  >
+                    <time
+                      dateTime={day.date}
+                      className={classNames(
+                        "mx-auto flex h-7 w-7 items-center justify-center rounded-full",
+                        day.isSelected && day.isToday && "bg-indigo-600",
+                        day.isSelected && !day.isToday && "bg-gray-900"
+                      )}
+                    >
+                      {day.date
+                        ? (day.date.split("-").pop() || "").replace(/^0/, "")
+                        : "N/A"}
+                    </time>
+                  </button>
+                )
+            )}
           </div>
           <Link to={`/appointments/new`}>
             <button

@@ -3,13 +3,25 @@ import Skeleton from "./Skeleton";
 const VITE_SOCKET_API_KEY = import.meta.env.VITE_SOCKET_API_KEY;
 const VITE_SOCKET_BASE_URL = import.meta.env.VITE_SOCKET_BASE_URL;
 
+interface SummaryType {
+  raw_summary: string;
+  parsed_summary: any;
+}
+
+interface TranscriptionSummaryProps {
+  transcription: string | null;
+  setTranscription: React.Dispatch<React.SetStateAction<string | null>>;
+  summary: SummaryType | null;
+  setSummary: React.Dispatch<React.SetStateAction<SummaryType | null>>;
+}
+
 function TranscriptionSummary({
   transcription,
   setTranscription,
   summary,
   setSummary,
-}) {
-  const [socket, setSocket] = useState(null);
+}: TranscriptionSummaryProps) {
+  const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {
     const newSocket = new WebSocket(
@@ -49,54 +61,6 @@ function TranscriptionSummary({
     }
   }, [socket]);
 
-  const displayTranscription = () => {
-    return (
-      <div className=" border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-        <dt className="text-sm font-medium leading-6 text-gray-900">
-          Transcription
-        </dt>
-        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-          {transcription}
-        </dd>
-      </div>
-    );
-  };
-
-  const displaySummary = () => {
-    return (
-      <>
-        <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-          <dt className="text-sm font-medium leading-6 text-gray-900">
-            Purpose of appointment
-          </dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-            {summary.why_seeking}
-          </dd>
-        </div>
-        <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-          <dt className="text-sm font-medium leading-6 text-gray-900">
-            History of symptoms
-          </dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-            {summary.symptoms_history.map((symptom) => (
-              <li key={symptom}>{symptom}</li>
-            ))}
-          </dd>
-        </div>
-        <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-          <dt className="text-sm font-medium leading-6 text-gray-900">
-            Other information
-          </dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-            {summary.other_info.map((info) => (
-              <li key={info}>{info}</li>
-            ))}
-          </dd>
-        </div>
-      </>
-    );
-  };
-
   return (
     <div>
       <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
@@ -117,7 +81,7 @@ function TranscriptionSummary({
         </dt>
         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
           {summary ? (
-            summary.parsed_summary.symptoms_history.map((symptom) => (
+            summary.parsed_summary.symptoms_history.map((symptom: string) => (
               <li key={symptom}>{symptom}</li>
             ))
           ) : (
@@ -131,7 +95,7 @@ function TranscriptionSummary({
         </dt>
         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
           {summary ? (
-            summary.parsed_summary.other_info.map((info) => (
+            summary.parsed_summary.other_info.map((info: string) => (
               <li key={info}>{info}</li>
             ))
           ) : (
@@ -145,7 +109,7 @@ function TranscriptionSummary({
         </dt>
         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
           {summary ? (
-            summary.parsed_summary.next_steps.map((step) => (
+            summary.parsed_summary.next_steps.map((step: string) => (
               <li key={step}>{step}</li>
             ))
           ) : (

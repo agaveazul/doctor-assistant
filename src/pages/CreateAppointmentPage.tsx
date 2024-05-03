@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import SearchDropdown from "../components/SearchDropdown";
-import Datepicker from "react-tailwindcss-datepicker";
+// import Datepicker from "react-tailwindcss-datepicker";
 import Timepicker from "../components/Timepicker";
 
 export default function CreateAppointmentPage() {
@@ -27,9 +25,9 @@ export default function CreateAppointmentPage() {
               <SearchDropdown />
             </div>
 
-            <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
+            {/* <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
               <label
-                htmlFor="about"
+                htmlFor="date"
                 className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
               >
                 Date
@@ -40,10 +38,11 @@ export default function CreateAppointmentPage() {
                   asSingle
                   value={{
                     startDate: new Date(),
+                    endDate: new Date(),
                   }}
                 />
               </div>
-            </div>
+            </div> */}
 
             <div className="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:py-6 relative">
               <label

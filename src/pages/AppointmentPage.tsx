@@ -1,11 +1,8 @@
-import { useParams } from "react-router-dom";
 import { PaperClipIcon } from "@heroicons/react/20/solid";
 import { Button } from "../components/button";
 import { Link } from "../components/link";
-import AudioRecorderPlayer from "../components/AudioRecorderPlayer";
 
 export default function AppointmentPage() {
-  const { id: appointmentId } = useParams();
   return (
     <div>
       <div className="relative flex">
@@ -19,9 +16,7 @@ export default function AppointmentPage() {
         </div>
         <div className="absolute right-0 mt-2.5">
           <Link to={`/record`}>
-            <button className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              Record
-            </button>
+            <Button color="indigo">Record</Button>
           </Link>
         </div>
       </div>
