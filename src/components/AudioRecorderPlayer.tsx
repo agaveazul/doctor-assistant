@@ -31,6 +31,19 @@ const AudioRecorderPlayer = ({
 
   const { recordedBlob, error, audioRef } = recorderControls;
 
+  const handleMicrophonePermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      console.log("Microphone access granted:", stream);
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleMicrophonePermission();
+  }, []);
+
   // Get the recorded audio blob
   useEffect(() => {
     if (!recordedBlob) return;
